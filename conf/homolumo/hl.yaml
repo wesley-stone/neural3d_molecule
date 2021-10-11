@@ -1,0 +1,14 @@
+# model: dimenet
+model: schnet
+seed: 0
+lr: 5e-4
+device: cuda:1
+target: homo
+label_path: /mnt/exp/eri/data/homolumo/labels.xlsx
+xyz_path: /mnt/exp/eri/data/homolumo/xyz
+# train.pkl, test.pkl
+pickle_path: /mnt/exp/eri/data/homolumo/
+batch_size: 256
+train_val_ratio: 0.9
+min_atm: 0
+max_atm: 200

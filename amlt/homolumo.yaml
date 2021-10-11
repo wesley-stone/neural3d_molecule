@@ -1,0 +1,43 @@
+description: homolumo 
+
+target:
+  service: amlk8s
+  # run "pt target list amlk8s" to list the names of available AMLK8s targets
+  name: itpwus2cpucl1
+  vc: gcrcpu
+
+environment:
+  image: 940042441/eri2:v2
+  registry: docker.io
+  setup:
+    - sudo git -C /opt/pyscf pull
+    - pip install tensorboard --user
+    
+
+storage:
+  exp: 
+    storage_account_name: swlsci
+    container_name: exp
+    is_output: True
+
+code:
+  # local directory of the code. this will be uploaded to the server.
+  # $CONFIG_DIR is expanded to the directory of this config file
+  local_dir: $CONFIG_DIR/..
+
+search:
+  job_template:
+    name: search_{auto:3s}
+    sku: 128C16
+    command:
+    # - 'python run.py task=chignolin cal.init_guess={guess}'
+    - 'python run.py task=dft cal=chignolin cal.init_guess={init_guess} cal.df={df}'
+  type: grid
+  max_trials: 10
+  params:
+    - name: init_guess
+      spec: hyperdrive
+      values: choice('vsap', 'hcore', 'huckel', 'atom')
+    - name: df
+      spec: hyperdrive
+      values: choice('defualt', 'null')

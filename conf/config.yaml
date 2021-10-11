@@ -1,0 +1,10 @@
+task: train
+# task: collect_data
+# task: dft
+
+defaults:
+  - homolumo: hl
+
+hydra:
+  run:
+    dir: /mnt/exp/eri/${task}/${now:%Y-%m-%d-%H-%M-%S.%f}/
